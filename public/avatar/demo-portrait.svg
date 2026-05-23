@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" role="img" aria-label="Demo portrait placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#292524"/>
+      <stop offset="100%" stop-color="#1c1917"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e85d4c"/>
+      <stop offset="100%" stop-color="#c9a227"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="500" fill="url(#bg)"/>
+  <circle cx="320" cy="80" r="100" fill="#e85d4c" opacity="0.12"/>
+  <ellipse cx="200" cy="175" rx="72" ry="80" fill="#44403c"/>
+  <path d="M 88 500 Q 88 340 200 310 Q 312 340 312 500 Z" fill="#57534e"/>
+  <rect x="24" y="420" width="352" height="3" fill="url(#accent)" opacity="0.9"/>
+  <text x="200" y="455" fill="#a8a29e" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle" letter-spacing="3">DEMO PORTRAIT</text>
+  <text x="200" y="478" fill="#78716c" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">public/avatar/</text>
+</svg>

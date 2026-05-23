@@ -1,5 +1,6 @@
 import { cvData, type CVData } from "@/data/cv";
 import type { Locale, UILabels } from "@/i18n/ui";
+import CVAvatar from "@/components/CVAvatar";
 
 function stripUrl(url: string) {
   return url.replace(/^https?:\/\/(www\.)?/, "");
@@ -167,6 +168,7 @@ export default function CVTemplate({
 
       <div className="cv-body flex">
         <aside className="cv-sidebar w-1/3 shrink-0 px-3 py-3.5 text-white">
+          <CVAvatar />
           <SidebarSection title={labels.sidebar.creativeSkills}>
             <div className="space-y-2">
               {(

@@ -6,6 +6,7 @@
  *
  * Hướng dẫn: src/data/HUONG_DAN_NHAP_LIEU.md
  * Màu sắc: src/color/theme.ts
+ * Ảnh đại diện: src/avatar/config.ts
  */
 
 export interface Certification {

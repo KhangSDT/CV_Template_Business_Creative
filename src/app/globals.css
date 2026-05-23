@@ -365,6 +365,41 @@
   height: calc(297mm - 118px);
 }
 
+.cv-avatar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.625rem;
+}
+
+.cv-avatar__frame {
+  position: relative;
+  width: 100%;
+  max-width: 3.75rem;
+  overflow: hidden;
+  border-radius: 2px;
+  border: 2px solid rgba(var(--rgb-coral), 0.45);
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+  background: var(--brand-warm);
+}
+
+.cv-avatar--portrait .cv-avatar__frame {
+  aspect-ratio: 3 / 4;
+}
+
+.cv-avatar--square .cv-avatar__frame {
+  aspect-ratio: 1;
+  max-width: 3.25rem;
+}
+
+.cv-avatar__img {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
 .cv-sidebar {
   background: linear-gradient(
     165deg,
@@ -543,6 +578,10 @@
 
   .only-print {
     display: block !important;
+  }
+
+  .cv-avatar--no-print {
+    display: none !important;
   }
 
   .cv-page {

@@ -28,6 +28,12 @@ Mẫu CV **một trang A4** cho **designer**, **content creator** và **visual b
 
 Chỉnh tại **`src/color/theme.ts`** — hướng dẫn: [`src/color/HUONG_DAN_DOI_MAU.md`](src/color/HUONG_DAN_DOI_MAU.md)
 
+## Ảnh đại diện
+
+- Đặt file tại `public/avatar/`
+- Cấu hình trong **`src/avatar/config.ts`**
+- Hướng dẫn: [`src/avatar/HUONG_DAN_ANH_DAI_DIEN.md`](src/avatar/HUONG_DAN_ANH_DAI_DIEN.md)
+
 ## Dữ liệu
 
 | File | Mục đích |

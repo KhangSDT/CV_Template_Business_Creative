@@ -2,6 +2,8 @@
 
 Mẫu CV cho **thiết kế hình ảnh**, **sáng tạo nội dung** và **visual brand**. Nội dung lấy từ `src/data/cv.ts`.
 
+**Ảnh đại diện** (sidebar): `src/avatar/config.ts` — xem `src/avatar/HUONG_DAN_ANH_DAI_DIEN.md`.
+
 ## Ngôn ngữ
 
 - **Chỉ nhập tiếng Việt** trong `cv.ts`.
