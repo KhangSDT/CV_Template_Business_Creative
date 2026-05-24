@@ -54,9 +54,13 @@ Mẫu CV cho **thiết kế hình ảnh**, **sáng tạo nội dung** và **visu
 
 Giữ **đúng 1 trang A4** khi in — tối đa 2 dự án nếu nội dung dài.
 
-## In PDF
+## In & xuất file
 
-**Xuất PDF** hoặc Ctrl+P → A4 → **bật in nền** để giữ header và sidebar tối.
+| Nút | Chức năng |
+|-----|-----------|
+| **In CV** | Hộp thoại in trình duyệt (Ctrl+P) → A4, bật **In nền** |
+| **Tải PDF** | Tải file PDF từ giao diện CV hiện tại |
+| **Tải DOCX** | Tải Word từ dữ liệu `cv.ts` |
 
 ## Xem thay đổi
 

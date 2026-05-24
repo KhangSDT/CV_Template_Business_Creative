@@ -63,6 +63,7 @@ export default function CVPageClient() {
       <PreviewToolbar
         locale={locale}
         labels={labels}
+        cvData={displayData}
         loading={loading}
         onToggleLocale={handleToggle}
         error={error}

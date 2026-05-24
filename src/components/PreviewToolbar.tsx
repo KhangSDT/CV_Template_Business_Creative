@@ -1,12 +1,14 @@
 "use client";
 
+import type { CVData } from "@/data/cv";
 import type { Locale, UILabels } from "@/i18n/ui";
+import ExportActions from "@/components/ExportActions";
 import LanguageToggle from "@/components/LanguageToggle";
-import PrintButton from "@/components/PrintButton";
 
 type Props = {
   locale: Locale;
   labels: UILabels;
+  cvData: CVData;
   loading: boolean;
   onToggleLocale: () => void;
   error: string | null;
@@ -15,6 +17,7 @@ type Props = {
 export default function PreviewToolbar({
   locale,
   labels,
+  cvData,
   loading,
   onToggleLocale,
   error,
@@ -41,7 +44,10 @@ export default function PreviewToolbar({
 
         <div className="preview-toolbar__actions">
           <LanguageToggle locale={locale} loading={loading} onToggle={onToggleLocale} />
-          <PrintButton label={p.print} />
+          <ExportActions
+            data={cvData}
+            labels={{ print: p.print, pdf: p.pdf, docx: p.docx }}
+          />
         </div>
       </div>
 

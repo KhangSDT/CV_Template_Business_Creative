@@ -45,6 +45,14 @@ export interface Activity {
   description: string;
 }
 
+/** Kinh nghiệm làm việc / thực tập — tên công ty, chức vụ, thời gian, bullet + KPI */
+export interface WorkExperience {
+  company: string;
+  role: string;
+  period: string;
+  bullets: string[];
+}
+
 export interface CVData {
   header: {
     fullName: string;
@@ -69,9 +77,18 @@ export interface CVData {
   languages: LanguageSkill[];
   careerObjective: string;
   education: Education[];
+  experience: WorkExperience[];
   projects: Project[];
   activities: Activity[];
 }
+
+/** SEO & share preview — cập nhật URL khi deploy */
+export const cvMeta = {
+  siteUrl: "https://cv-business-creative.example.com",
+  siteTitle: "Business Creative — CV Designer & Content Creator",
+  description:
+    "Mẫu CV một trang A4 cho thiết kế hình ảnh, sáng tạo nội dung và visual brand — responsive, ATS-friendly, export PDF/DOCX.",
+} as const;
 
 export const cvData: CVData = {
   header: {
@@ -144,6 +161,28 @@ export const cvData: CVData = {
       major: "[Thiết kế Đồ họa / Truyền thông Đa phương tiện]",
       period: "[2021 – 2025]",
       gpa: "GPA [3.5/4.0]",
+    },
+  ],
+
+  experience: [
+    {
+      company: "[Agency XYZ / In-house Brand ABC]",
+      role: "[Creative Intern — Design & Content]",
+      period: "[06 – 08/2024]",
+      bullets: [
+        "Hỗ trợ thiết kế 15+ post social/tuần theo brand guideline; giảm ~20% vòng chỉnh sửa nhờ checklist QA nội bộ.",
+        "Viết caption và storyboard 8 Reels; tăng tương tác trung bình ~28% so với tháng trước.",
+        "Phối hợp account & copywriter trong quy trình brief → moodboard → delivery trong 48h.",
+      ],
+    },
+    {
+      company: "[Freelance — Visual & Social]",
+      role: "[Junior Designer]",
+      period: "[2023 – nay]",
+      bullets: [
+        "Nhận 5+ dự án nhỏ (F&B, lifestyle): logo, menu, template Canva và lịch đăng 2 tuần.",
+        "Duy trì NPS khách hàng 4.8/5 nhờ giao hàng đúng hạn và 2 vòng revision miễn phí.",
+      ],
     },
   ],
 

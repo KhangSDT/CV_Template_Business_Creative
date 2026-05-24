@@ -83,6 +83,13 @@ function collectTranslatableStrings(data: CVData, set: Set<string>) {
     add(e.gpa);
   });
 
+  data.experience.forEach((x) => {
+    add(x.company);
+    add(x.role);
+    add(x.period);
+    x.bullets.forEach(add);
+  });
+
   data.projects.forEach((p) => {
     add(p.name);
     add(p.role);
@@ -149,6 +156,12 @@ export async function translateCVData(data: CVData): Promise<CVData> {
       major: applyMap(e.major, map),
       period: applyMap(e.period, map),
       gpa: e.gpa ? applyMap(e.gpa, map) : undefined,
+    })),
+    experience: data.experience.map((x) => ({
+      company: applyMap(x.company, map),
+      role: applyMap(x.role, map),
+      period: applyMap(x.period, map),
+      bullets: x.bullets.map((b) => applyMap(b, map)),
     })),
     projects: data.projects.map((p) => ({
       ...p,

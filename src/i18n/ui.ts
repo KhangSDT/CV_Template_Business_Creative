@@ -25,6 +25,7 @@ export type UILabels = {
   main: {
     careerObjective: string;
     education: string;
+    experience: string;
     projects: string;
     activities: string;
     viewPortfolio: string;
@@ -36,6 +37,8 @@ export type UILabels = {
     subtitle: string;
     galleryTitle: string;
     print: string;
+    pdf: string;
+    docx: string;
     switchToEn: string;
     switchToVi: string;
     translating: string;
@@ -69,8 +72,9 @@ export const uiLabels: Record<Locale, UILabels> = {
     main: {
       careerObjective: "Định hướng & mục tiêu",
       education: "Học vấn",
+      experience: "Kinh nghiệm làm việc",
       projects: "Dự án & case study",
-      activities: "Kinh nghiệm & hoạt động",
+      activities: "Hoạt động & cộng đồng",
       viewPortfolio: "→ Xem trên Portfolio",
       toolsLabel: "Công cụ",
     },
@@ -79,7 +83,9 @@ export const uiLabels: Record<Locale, UILabels> = {
       previewLabel: "Xem trước",
       subtitle: "Thiết kế hình ảnh · Sáng tạo nội dung · Visual Brand",
       galleryTitle: "Tác phẩm tiêu biểu",
-      print: "Xuất PDF",
+      print: "In CV",
+      pdf: "Tải PDF",
+      docx: "Tải DOCX",
       switchToEn: "English",
       switchToVi: "Tiếng Việt",
       translating: "Đang dịch…",
@@ -111,8 +117,9 @@ export const uiLabels: Record<Locale, UILabels> = {
     main: {
       careerObjective: "Creative Direction & Goals",
       education: "Education",
+      experience: "Work Experience",
       projects: "Projects & Case Studies",
-      activities: "Experience & Activities",
+      activities: "Activities & Community",
       viewPortfolio: "→ View Case Study",
       toolsLabel: "Tools",
     },
@@ -121,7 +128,9 @@ export const uiLabels: Record<Locale, UILabels> = {
       previewLabel: "Preview",
       subtitle: "Visual Design · Content Creation · Brand",
       galleryTitle: "Featured Work",
-      print: "Export PDF",
+      print: "Print",
+      pdf: "Download PDF",
+      docx: "Download DOCX",
       switchToEn: "English",
       switchToVi: "Tiếng Việt",
       translating: "Translating…",

@@ -97,9 +97,12 @@ export default function CVTemplate({
 
   return (
     <article
+      id="cv-document"
       className="cv-page relative mx-auto overflow-hidden bg-brand-paper font-sans text-cv-body print:shadow-none"
       aria-label={locale === "vi" ? "Portfolio và CV sáng tạo" : "Creative Portfolio CV"}
       lang={locale}
+      itemScope
+      itemType="https://schema.org/Person"
     >
       <div className="cv-header-accent h-1.5 w-full" aria-hidden />
 
@@ -261,7 +264,39 @@ export default function CVTemplate({
             ))}
           </MainSection>
 
-          <MainSection num="03" title={labels.main.projects} className="mb-2">
+          {data.experience.length > 0 && (
+            <MainSection num="03" title={labels.main.experience} className="mb-2.5">
+              <div className="space-y-2">
+                {data.experience.map((job, i) => (
+                  <article
+                    key={i}
+                    className="rounded border border-cv-line/70 bg-white px-2 py-1.5 print-break-avoid"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0">
+                        <h3 className="text-[9.5px] font-bold text-cv-ink">{job.company}</h3>
+                        <p className="text-[8.5px] font-semibold text-brand-terracotta">{job.role}</p>
+                      </div>
+                      <time className="shrink-0 rounded bg-brand-charcoal px-1.5 py-px text-[7px] font-bold text-brand-gold">
+                        {job.period}
+                      </time>
+                    </div>
+                    <ul className="mt-1 list-disc space-y-0.5 pl-3.5 text-[8px] leading-snug text-cv-muted marker:text-brand-coral">
+                      {job.bullets.map((bullet, j) => (
+                        <li key={j}>{bullet}</li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
+              </div>
+            </MainSection>
+          )}
+
+          <MainSection
+            num={data.experience.length > 0 ? "04" : "03"}
+            title={labels.main.projects}
+            className="mb-2"
+          >
             <div className="space-y-2">
               {data.projects.map((project, i) => (
                 <article key={i} className="project-card">
@@ -315,7 +350,10 @@ export default function CVTemplate({
           </MainSection>
 
           {data.activities.length > 0 && (
-            <MainSection num="04" title={labels.main.activities}>
+            <MainSection
+              num={data.experience.length > 0 ? "05" : "04"}
+              title={labels.main.activities}
+            >
               <ul className="space-y-1">
                 {data.activities.map((act, i) => (
                   <li

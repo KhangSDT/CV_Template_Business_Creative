@@ -669,6 +669,21 @@
   min-height: 0;
 }
 
+@media screen and (max-width: 768px) {
+  .cv-body {
+    flex-direction: column;
+  }
+
+  .cv-sidebar,
+  .cv-main {
+    width: 100% !important;
+  }
+
+  .cv-sidebar {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}
+
 .cv-main {
   flex: 1;
   min-width: 0;
