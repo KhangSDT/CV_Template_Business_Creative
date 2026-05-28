@@ -1,6 +1,8 @@
 /**
  * ═══════════════════════════════════════════════════════════════
- *  DỮ LIỆU CƠ BẢN — CV (chỉ nhập tiếng Việt)
+ *  RESUME BASIC — Thông tin BẮT BUỘC của CV (in / PDF / DOCX)
+ *  • Header, kỹ năng, mục tiêu, học vấn, kinh nghiệm, dự án, hoạt động…
+ *  • Chỉ nhập tiếng Việt — bấm English trên web để dịch
  *  Hướng dẫn: src/huongdan.md
  * ═══════════════════════════════════════════════════════════════
  */
@@ -21,6 +23,7 @@ export const basic: CVData = {
       "Ubuntu Server",
     ],
     phone: "0968 884 946",
+    email: "nghiasoothsayer@gmail.com",
     address: "Tây Ninh, Việt Nam",
     portfolio: "https://github.com/ZakShinn",
     facebook: "https://www.facebook.com/profile.php?id=100006985387032",

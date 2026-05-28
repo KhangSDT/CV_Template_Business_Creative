@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
-import { config } from "@/config";
+import { isSearchBlocked } from "@/config";
 
 export default function robots(): MetadataRoute.Robots {
-  if (config.seo.blockSearchEngines) {
+  if (isSearchBlocked()) {
     return {
       rules: { userAgent: "*", disallow: "/" },
     };

@@ -1,4 +1,5 @@
 import { cvData, type CVData } from "@/resume";
+import { normalizeCVData } from "@/lib/normalize-cv";
 import { translateCVData } from "@/lib/translate-cv";
 import { NextResponse } from "next/server";
 
@@ -13,7 +14,7 @@ export async function POST(request: Request) {
       if (parsed && typeof parsed === "object") body = parsed as CVData;
     }
 
-    const translated = await translateCVData(body);
+    const translated = normalizeCVData(await translateCVData(normalizeCVData(body)));
     return NextResponse.json({ data: translated });
   } catch (e) {
     console.error("[translate]", e);

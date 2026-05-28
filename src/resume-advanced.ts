@@ -1,6 +1,8 @@
 /**
  * ═══════════════════════════════════════════════════════════════
- *  DỮ LIỆU NÂNG CAO — SEO, branding web, gallery
+ *  RESUME ADVANCED — Thông tin NÂNG CAO (website, không in lên CV A4)
+ *  • SEO (meta, keywords, ogImage), nhãn toolbar, danh sách gallery
+ *  • Không chứa nội dung CV chính — sửa CV tại resume-basic.ts
  *  Hướng dẫn: src/huongdan.md
  * ═══════════════════════════════════════════════════════════════
  */

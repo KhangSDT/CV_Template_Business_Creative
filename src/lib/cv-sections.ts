@@ -15,9 +15,9 @@ export type MainSectionKey = (typeof MAIN_SECTION_ORDER)[number];
 function isMainSectionVisible(key: MainSectionKey, data: CVData): boolean {
   switch (key) {
     case "careerObjective":
-      return featureEnabled("careerObjective");
+      return featureEnabled("careerObjective") && data.careerObjective.length > 0;
     case "education":
-      return featureEnabled("education");
+      return featureEnabled("education") && data.education.length > 0;
     case "experience":
       return featureEnabled("experience") && data.experience.length > 0;
     case "activities":

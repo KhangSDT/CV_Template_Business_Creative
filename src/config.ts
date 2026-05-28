@@ -82,8 +82,15 @@ const ADVANCED_ONLY_FEATURES = [
   "jsonLd",
 ] as const satisfies ReadonlyArray<keyof typeof config.features>;
 
+/** true = không cho Google / bot index (robots.txt + noindex) */
+export function isSearchBlocked(): boolean {
+  return config.seo.blockSearchEngines;
+}
+
 export function featureEnabled(key: keyof typeof config.features): boolean {
   if (!config.features[key]) return false;
+  /** JSON-LD luôn tắt khi chặn tìm kiếm — tránh gợi ý index cho Google */
+  if (key === "jsonLd" && isSearchBlocked()) return false;
   if (config.displayMode === "basic") {
     return !(ADVANCED_ONLY_FEATURES as readonly string[]).includes(key);
   }

@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { featureEnabled } from "@/config";
 import { getMainSectionNumbers } from "@/lib/cv-sections";
+import { hasCreativeSkills, normalizeCVData } from "@/lib/normalize-cv";
 import { cvData, type CVData } from "@/resume";
 import type { Locale, UILabels } from "@/i18n/ui";
 import CVAvatar from "@/components/CVAvatar";
@@ -95,9 +96,11 @@ export default function CVTemplate({
   labels,
   locale = "vi",
 }: CVTemplateProps) {
-  const { header, creativeSkills } = data;
+  const safe = useMemo(() => normalizeCVData(data), [data]);
+  const { header, creativeSkills } = safe;
   const sg = labels.sidebar.skillGroups;
-  const sectionNum = useMemo(() => getMainSectionNumbers(data), [data]);
+  const sectionNum = useMemo(() => getMainSectionNumbers(safe), [safe]);
+  const showCreativeSkills = featureEnabled("creativeSkills") && hasCreativeSkills(safe);
 
   return (
     <article
@@ -124,9 +127,11 @@ export default function CVTemplate({
             <p className="mt-1.5 text-[11.5px] font-semibold tracking-wide text-brand-coral">
               {header.position}
             </p>
-            <p className="mt-1.5 max-w-full font-accent text-[10px] italic leading-snug text-white/80 pr-2">
-              {header.tagline}
-            </p>
+            {header.tagline && (
+              <p className="mt-1.5 max-w-full font-accent text-[10px] italic leading-snug text-white/80 pr-2">
+                {header.tagline}
+              </p>
+            )}
             {featureEnabled("headerHighlights") && header.highlights.length > 0 && (
               <div className="mt-2 flex flex-wrap gap-1">
                 {header.highlights.map((h) => (
@@ -140,11 +145,13 @@ export default function CVTemplate({
 
           <div className="shrink-0 rounded border border-white/12 bg-white/5 p-2 backdrop-blur-sm">
             <div className="grid grid-cols-1 gap-1.5">
-              <ContactItem
-                label={labels.contact.phone}
-                value={header.phone}
-                href={`tel:${header.phone.replace(/\s/g, "")}`}
-              />
+              {header.phone && (
+                <ContactItem
+                  label={labels.contact.phone}
+                  value={header.phone}
+                  href={`tel:${header.phone.replace(/\s/g, "")}`}
+                />
+              )}
               {header.email && (
                 <ContactItem
                   label={labels.contact.email}
@@ -152,12 +159,16 @@ export default function CVTemplate({
                   href={`mailto:${header.email}`}
                 />
               )}
-              <ContactItem label={labels.contact.location} value={header.address} />
-              <ContactItem
-                label={labels.contact.github}
-                value={stripUrl(header.portfolio)}
-                href={header.portfolio}
-              />
+              {header.address && (
+                <ContactItem label={labels.contact.location} value={header.address} />
+              )}
+              {header.portfolio && (
+                <ContactItem
+                  label={labels.contact.github}
+                  value={stripUrl(header.portfolio)}
+                  href={header.portfolio}
+                />
+              )}
               {header.facebook && (
                 <ContactItem
                   label={labels.contact.facebook}
@@ -194,7 +205,7 @@ export default function CVTemplate({
       <div className="cv-body flex">
         <aside className="cv-sidebar w-1/3 shrink-0 px-3 py-3.5 text-white">
           <CVAvatar />
-          {featureEnabled("creativeSkills") && (
+          {showCreativeSkills && (
             <SidebarSection title={labels.sidebar.creativeSkills}>
               <div className="space-y-2">
                 {(
@@ -216,10 +227,10 @@ export default function CVTemplate({
             </SidebarSection>
           )}
 
-          {featureEnabled("certifications") && data.certifications.length > 0 && (
+          {featureEnabled("certifications") && safe.certifications.length > 0 && (
             <SidebarSection title={labels.sidebar.certifications}>
               <ul className="space-y-1.5">
-                {data.certifications.map((cert, i) => (
+                {safe.certifications.map((cert, i) => (
                   <li
                     key={i}
                     className="border-l-2 border-brand-coral/70 pl-2 text-[8px] leading-snug"
@@ -234,10 +245,10 @@ export default function CVTemplate({
             </SidebarSection>
           )}
 
-          {featureEnabled("languages") && (
+          {featureEnabled("languages") && safe.languages.length > 0 && (
             <SidebarSection title={labels.sidebar.languages}>
               <ul className="space-y-1.5">
-                {data.languages.map((lang, i) => (
+                {safe.languages.map((lang, i) => (
                   <li key={i} className="text-[8px] leading-snug">
                     <span className="font-bold text-brand-gold">{lang.name}</span>
                     <p className="mt-0.5 text-white/70">{lang.level}</p>
@@ -265,7 +276,7 @@ export default function CVTemplate({
                 >
                   “
                 </span>
-                {data.careerObjective}
+                {safe.careerObjective}
               </blockquote>
             </MainSection>
           )}
@@ -273,16 +284,18 @@ export default function CVTemplate({
           {sectionNum.education && (
           <MainSection num={sectionNum.education} title={labels.main.education} className="mb-2.5">
             <div className="space-y-1.5">
-              {data.education.map((edu, i) => (
+              {safe.education.map((edu, i) => (
                 <div
                   key={i}
                   className="rounded border border-cv-line/70 bg-white px-2 py-1"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <p className="text-[9.5px] font-bold leading-tight text-cv-ink">{edu.school}</p>
-                    <p className="shrink-0 text-[8px] font-semibold text-brand-terracotta">
-                      {edu.period}
-                    </p>
+                    {edu.period && (
+                      <p className="shrink-0 text-[8px] font-semibold text-brand-terracotta">
+                        {edu.period}
+                      </p>
+                    )}
                   </div>
                   {edu.major && (
                     <p className="mt-0.5 text-[8.5px] text-cv-muted">
@@ -306,7 +319,7 @@ export default function CVTemplate({
           {sectionNum.experience && (
             <MainSection num={sectionNum.experience} title={labels.main.experience} className="mb-2.5">
               <div className="space-y-2">
-                {data.experience.map((job, i) => (
+                {safe.experience.map((job, i) => (
                   <article
                     key={i}
                     className="rounded border border-cv-line/70 bg-white px-2 py-1.5 print-break-avoid"
@@ -334,7 +347,7 @@ export default function CVTemplate({
           {sectionNum.activities && (
             <MainSection num={sectionNum.activities} title={labels.main.activities} className="mb-2.5">
               <ul className="space-y-1">
-                {data.activities.map((act, i) => (
+                {safe.activities.map((act, i) => (
                   <li
                     key={i}
                     className="flex gap-2 border-b border-cv-line/50 pb-1 text-[8px] leading-snug last:border-0"
@@ -360,7 +373,7 @@ export default function CVTemplate({
           {sectionNum.projects && (
           <MainSection num={sectionNum.projects} title={labels.main.projects} className="mb-2">
             <div className="space-y-2">
-              {data.projects.map((project, i) => (
+              {safe.projects.map((project, i) => (
                 <article key={i} className="project-card">
                   <div className="flex items-start justify-between gap-2">
                     <h3 className="text-[9.5px] font-bold leading-tight text-cv-ink">

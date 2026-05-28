@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { DEFAULT_AVATAR_SRC } from "@/avatar";
-import { config, featureEnabled } from "@/config";
+import { featureEnabled, isSearchBlocked } from "@/config";
 import { getThemeCssBlock } from "@/color";
 import { getFontCssBlock, getGoogleFontsUrl } from "@/font";
 import { buildPersonJsonLd } from "@/lib/seo";
@@ -8,28 +8,32 @@ import { cvData, cvMeta } from "@/resume";
 import { advanced } from "@/resume-advanced";
 import "./globals.css";
 
-const blockSearch = config.seo.blockSearchEngines;
+const blockSearch = isSearchBlocked();
 const ogImage = advanced.meta.ogImage ?? DEFAULT_AVATAR_SRC;
 
 export const metadata: Metadata = {
   title: cvMeta.siteTitle,
   description: cvMeta.description,
-  keywords: advanced.meta.keywords,
+  ...(blockSearch
+    ? {}
+    : {
+        keywords: advanced.meta.keywords,
+        openGraph: {
+          title: cvMeta.siteTitle,
+          description: cvMeta.description,
+          type: "website",
+          url: cvMeta.siteUrl,
+          locale: "vi_VN",
+          images: [{ url: ogImage }],
+        },
+        twitter: {
+          card: "summary_large_image",
+          title: cvMeta.siteTitle,
+          description: cvMeta.description,
+          images: [ogImage],
+        },
+      }),
   metadataBase: new URL(cvMeta.siteUrl),
-  openGraph: {
-    title: cvMeta.siteTitle,
-    description: cvMeta.description,
-    type: "website",
-    url: cvMeta.siteUrl,
-    locale: "vi_VN",
-    images: [{ url: ogImage }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: cvMeta.siteTitle,
-    description: cvMeta.description,
-    images: [ogImage],
-  },
   robots: blockSearch
     ? {
         index: false,

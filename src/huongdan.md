@@ -4,8 +4,8 @@
 
 | File | Nội dung |
 |------|----------|
-| **`src/resume-basic.ts`** | Dữ liệu CV cơ bản (tiếng Việt) |
-| **`src/resume-advanced.ts`** | SEO, gallery, meta website |
+| **`src/resume-basic.ts`** | **Bắt buộc** — toàn bộ nội dung CV (tiếng Việt) |
+| **`src/resume-advanced.ts`** | **Nâng cao** — SEO, toolbar, gallery (chỉ website) |
 | **`src/resume.ts`** | Re-export cho app (không cần sửa) |
 | **`src/avatar.ts`** | Ảnh đại diện (`public/avatar/avatar.jpg`) |
 | **`src/color.ts`** | Màu website & CV |
@@ -14,13 +14,15 @@
 
 ---
 
-## 1. `resume-basic.ts` (bắt buộc)
+## 1. `resume-basic.ts` — CV bắt buộc
 
 Mở **`src/resume-basic.ts`** — chỉ nhập **tiếng Việt**. Bấm **English** trên web để dịch (nếu bật trong `config.ts`).
 
+**Xóa dòng không cần:** Có thể xóa hẳn dòng tùy chọn (`facebook`, `zalo`, `email`, `portfolioUrl`, một mục trong `education[]`…). Dòng trống hoặc mục thiếu tên trường/công ty sẽ **tự ẩn** — app vẫn chạy bình thường.
+
 | Nhóm | Ghi chú |
 |------|---------|
-| `header` | Họ tên, vị trí, tagline, highlights, liên hệ, portfolio |
+| `header` | Họ tên, vị trí, tagline, highlights, phone, **email**, địa chỉ, portfolio, mạng xã hội (tùy chọn) |
 | `creativeSkills` | design · content · software · media |
 | `careerObjective` | Mục tiêu nghề nghiệp |
 | `education` | Học vấn: `school`, `period`, `major?`, `detail?` (nội dung / hoạt động / giai đoạn) |
@@ -33,9 +35,9 @@ Giữ **1 trang A4** khi in — tối đa 2 dự án nếu nội dung dài.
 
 ---
 
-## 2. `resume-advanced.ts` (website)
+## 2. `resume-advanced.ts` — Website nâng cao
 
-SEO, nhãn toolbar và gallery (không in lên CV A4).
+Không thay thế `resume-basic.ts`. Chỉ dùng cho: SEO, nhãn toolbar và gallery (**không in** lên CV A4).
 
 ### `meta` — SEO
 
@@ -152,11 +154,13 @@ displayMode: "basic" | "advanced"
 | `exportDocx` | Nút Tải DOCX |
 | `jsonLd` | Dữ liệu có cấu trúc SEO (khi cho phép index) |
 
-**Chặn Google tìm kiếm** (mặc định bật):
+**Chặn Google tìm kiếm** (mặc định bật — tối ưu riêng tư):
 
 ```ts
 seo: { blockSearchEngines: true }
 ```
+
+→ `robots.txt` chặn toàn site · meta `noindex, nofollow` · tắt JSON-LD / Open Graph gợi ý index. Muốn Google index: đặt `false` (và có thể bật `features.jsonLd`).
 
 ---
 
