@@ -1,4 +1,7 @@
-import { cvData, type CVData } from "@/data/cv";
+import { useMemo } from "react";
+import { featureEnabled } from "@/config";
+import { getMainSectionNumbers } from "@/lib/cv-sections";
+import { cvData, type CVData } from "@/resume";
 import type { Locale, UILabels } from "@/i18n/ui";
 import CVAvatar from "@/components/CVAvatar";
 
@@ -94,6 +97,7 @@ export default function CVTemplate({
 }: CVTemplateProps) {
   const { header, creativeSkills } = data;
   const sg = labels.sidebar.skillGroups;
+  const sectionNum = useMemo(() => getMainSectionNumbers(data), [data]);
 
   return (
     <article
@@ -123,7 +127,7 @@ export default function CVTemplate({
             <p className="mt-1.5 max-w-full font-accent text-[10px] italic leading-snug text-white/80 pr-2">
               {header.tagline}
             </p>
-            {header.highlights.length > 0 && (
+            {featureEnabled("headerHighlights") && header.highlights.length > 0 && (
               <div className="mt-2 flex flex-wrap gap-1">
                 {header.highlights.map((h) => (
                   <span key={h} className="highlight-chip">
@@ -141,23 +145,41 @@ export default function CVTemplate({
                 value={header.phone}
                 href={`tel:${header.phone.replace(/\s/g, "")}`}
               />
-              <ContactItem
-                label={labels.contact.email}
-                value={header.email}
-                href={`mailto:${header.email}`}
-              />
+              {header.email && (
+                <ContactItem
+                  label={labels.contact.email}
+                  value={header.email}
+                  href={`mailto:${header.email}`}
+                />
+              )}
               <ContactItem label={labels.contact.location} value={header.address} />
               <ContactItem
-                label={labels.contact.portfolio}
+                label={labels.contact.github}
                 value={stripUrl(header.portfolio)}
                 href={header.portfolio}
               />
-              <ContactItem
-                label={labels.contact.linkedin}
-                value={stripUrl(header.linkedin)}
-                href={header.linkedin}
-              />
-              {header.instagram && (
+              {header.facebook && (
+                <ContactItem
+                  label={labels.contact.facebook}
+                  value={stripUrl(header.facebook)}
+                  href={header.facebook}
+                />
+              )}
+              {header.zalo && (
+                <ContactItem
+                  label={labels.contact.zalo}
+                  value={stripUrl(header.zalo)}
+                  href={header.zalo}
+                />
+              )}
+              {header.linkedin && (
+                <ContactItem
+                  label={labels.contact.linkedin}
+                  value={stripUrl(header.linkedin)}
+                  href={header.linkedin}
+                />
+              )}
+              {featureEnabled("instagram") && header.instagram && (
                 <ContactItem
                   label={labels.contact.instagram}
                   value={stripUrl(header.instagram)}
@@ -172,27 +194,29 @@ export default function CVTemplate({
       <div className="cv-body flex">
         <aside className="cv-sidebar w-1/3 shrink-0 px-3 py-3.5 text-white">
           <CVAvatar />
-          <SidebarSection title={labels.sidebar.creativeSkills}>
-            <div className="space-y-2">
-              {(
-                [
-                  [sg.design, creativeSkills.design],
-                  [sg.content, creativeSkills.content],
-                  [sg.software, creativeSkills.software],
-                  [sg.media, creativeSkills.media],
-                ] as const
-              ).map(([label, items]) =>
-                items.length > 0 ? (
-                  <div key={label}>
-                    <p className="mb-1 text-[8px] font-semibold text-white/55">{label}</p>
-                    <SkillPills items={[...items]} />
-                  </div>
-                ) : null,
-              )}
-            </div>
-          </SidebarSection>
+          {featureEnabled("creativeSkills") && (
+            <SidebarSection title={labels.sidebar.creativeSkills}>
+              <div className="space-y-2">
+                {(
+                  [
+                    [sg.design, creativeSkills.design],
+                    [sg.content, creativeSkills.content],
+                    [sg.software, creativeSkills.software],
+                    [sg.media, creativeSkills.media],
+                  ] as const
+                ).map(([label, items]) =>
+                  items.length > 0 ? (
+                    <div key={label}>
+                      <p className="mb-1 text-[8px] font-semibold text-white/55">{label}</p>
+                      <SkillPills items={[...items]} />
+                    </div>
+                  ) : null,
+                )}
+              </div>
+            </SidebarSection>
+          )}
 
-          {data.certifications.length > 0 && (
+          {featureEnabled("certifications") && data.certifications.length > 0 && (
             <SidebarSection title={labels.sidebar.certifications}>
               <ul className="space-y-1.5">
                 {data.certifications.map((cert, i) => (
@@ -210,16 +234,18 @@ export default function CVTemplate({
             </SidebarSection>
           )}
 
-          <SidebarSection title={labels.sidebar.languages}>
-            <ul className="space-y-1.5">
-              {data.languages.map((lang, i) => (
-                <li key={i} className="text-[8px] leading-snug">
-                  <span className="font-bold text-brand-gold">{lang.name}</span>
-                  <p className="mt-0.5 text-white/70">{lang.level}</p>
-                </li>
-              ))}
-            </ul>
-          </SidebarSection>
+          {featureEnabled("languages") && (
+            <SidebarSection title={labels.sidebar.languages}>
+              <ul className="space-y-1.5">
+                {data.languages.map((lang, i) => (
+                  <li key={i} className="text-[8px] leading-snug">
+                    <span className="font-bold text-brand-gold">{lang.name}</span>
+                    <p className="mt-0.5 text-white/70">{lang.level}</p>
+                  </li>
+                ))}
+              </ul>
+            </SidebarSection>
+          )}
 
           <div
             className="relative z-10 mt-auto pt-2 text-[7.5px] uppercase tracking-[0.2em] text-white/35"
@@ -230,42 +256,55 @@ export default function CVTemplate({
         </aside>
 
         <main className="cv-main w-2/3 bg-brand-cream px-4 py-3">
-          <MainSection num="01" title={labels.main.careerObjective} className="mb-2.5">
-            <blockquote className="objective-quote relative border-l-[3px] border-brand-coral bg-white px-2.5 py-1.5 text-[8.5px] leading-relaxed text-cv-body shadow-card">
-              <span
-                className="pointer-events-none absolute -left-0.5 -top-1 font-display text-2xl leading-none text-brand-coral/30"
-                aria-hidden
-              >
-                “
-              </span>
-              {data.careerObjective}
-            </blockquote>
-          </MainSection>
+          {sectionNum.careerObjective && (
+            <MainSection num={sectionNum.careerObjective} title={labels.main.careerObjective} className="mb-2.5">
+              <blockquote className="objective-quote relative border-l-[3px] border-brand-coral bg-white px-2.5 py-1.5 text-[8.5px] leading-relaxed text-cv-body shadow-card">
+                <span
+                  className="pointer-events-none absolute -left-0.5 -top-1 font-display text-2xl leading-none text-brand-coral/30"
+                  aria-hidden
+                >
+                  “
+                </span>
+                {data.careerObjective}
+              </blockquote>
+            </MainSection>
+          )}
 
-          <MainSection num="02" title={labels.main.education} className="mb-2.5">
-            {data.education.map((edu, i) => (
-              <div
-                key={i}
-                className="flex items-start justify-between gap-2 rounded border border-cv-line/70 bg-white px-2 py-1"
-              >
-                <div>
-                  <p className="text-[9.5px] font-bold text-cv-ink">{edu.school}</p>
-                  <p className="text-[8.5px] text-cv-muted">{edu.major}</p>
-                </div>
-                <div className="shrink-0 text-right">
-                  <p className="text-[8px] font-semibold text-brand-terracotta">{edu.period}</p>
+          {sectionNum.education && (
+          <MainSection num={sectionNum.education} title={labels.main.education} className="mb-2.5">
+            <div className="space-y-1.5">
+              {data.education.map((edu, i) => (
+                <div
+                  key={i}
+                  className="rounded border border-cv-line/70 bg-white px-2 py-1"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="text-[9.5px] font-bold leading-tight text-cv-ink">{edu.school}</p>
+                    <p className="shrink-0 text-[8px] font-semibold text-brand-terracotta">
+                      {edu.period}
+                    </p>
+                  </div>
+                  {edu.major && (
+                    <p className="mt-0.5 text-[8.5px] text-cv-muted">
+                      <span className="font-semibold text-cv-ink">Chuyên ngành:</span> {edu.major}
+                    </p>
+                  )}
+                  {edu.detail && (
+                    <p className="mt-0.5 text-[8px] leading-snug text-cv-body">{edu.detail}</p>
+                  )}
                   {edu.gpa && (
-                    <p className="mt-0.5 rounded bg-brand-blush px-1.5 py-px text-[7.5px] font-bold text-brand-charcoal">
+                    <p className="mt-0.5 inline-block rounded bg-brand-blush px-1.5 py-px text-[7.5px] font-bold text-brand-charcoal">
                       {edu.gpa}
                     </p>
                   )}
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </MainSection>
+          )}
 
-          {data.experience.length > 0 && (
-            <MainSection num="03" title={labels.main.experience} className="mb-2.5">
+          {sectionNum.experience && (
+            <MainSection num={sectionNum.experience} title={labels.main.experience} className="mb-2.5">
               <div className="space-y-2">
                 {data.experience.map((job, i) => (
                   <article
@@ -292,11 +331,34 @@ export default function CVTemplate({
             </MainSection>
           )}
 
-          <MainSection
-            num={data.experience.length > 0 ? "04" : "03"}
-            title={labels.main.projects}
-            className="mb-2"
-          >
+          {sectionNum.activities && (
+            <MainSection num={sectionNum.activities} title={labels.main.activities} className="mb-2.5">
+              <ul className="space-y-1">
+                {data.activities.map((act, i) => (
+                  <li
+                    key={i}
+                    className="flex gap-2 border-b border-cv-line/50 pb-1 text-[8px] leading-snug last:border-0"
+                  >
+                    <span className="mt-0.5 h-1.5 w-1.5 shrink-0 rotate-45 bg-brand-coral" />
+                    <div>
+                      <span className="font-bold text-cv-ink">
+                        {act.title}
+                        {act.period && (
+                          <span className="ml-1 font-normal text-brand-terracotta">
+                            · {act.period}
+                          </span>
+                        )}
+                      </span>
+                      <span className="text-cv-muted"> — {act.description}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </MainSection>
+          )}
+
+          {sectionNum.projects && (
+          <MainSection num={sectionNum.projects} title={labels.main.projects} className="mb-2">
             <div className="space-y-2">
               {data.projects.map((project, i) => (
                 <article key={i} className="project-card">
@@ -327,55 +389,15 @@ export default function CVTemplate({
                       <li key={j}>{bullet}</li>
                     ))}
                   </ul>
-                  {(project.result || project.portfolioUrl) && (
-                    <p className="mt-1 flex flex-wrap items-center gap-1 text-[7.5px]">
-                      {project.result && (
-                        <span className="font-bold text-brand-charcoal">{project.result}</span>
-                      )}
-                      {project.portfolioUrl && (
-                        <a
-                          href={project.portfolioUrl}
-                          className="font-semibold text-brand-terracotta underline decoration-brand-coral/40 underline-offset-2"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {labels.main.viewPortfolio}
-                        </a>
-                      )}
+                  {project.result && (
+                    <p className="mt-1 text-[7.5px] font-bold text-brand-charcoal">
+                      {project.result}
                     </p>
                   )}
                 </article>
               ))}
             </div>
           </MainSection>
-
-          {data.activities.length > 0 && (
-            <MainSection
-              num={data.experience.length > 0 ? "05" : "04"}
-              title={labels.main.activities}
-            >
-              <ul className="space-y-1">
-                {data.activities.map((act, i) => (
-                  <li
-                    key={i}
-                    className="flex gap-2 border-b border-cv-line/50 pb-1 text-[8px] leading-snug last:border-0"
-                  >
-                    <span className="mt-0.5 h-1.5 w-1.5 shrink-0 rotate-45 bg-brand-coral" />
-                    <div>
-                      <span className="font-bold text-cv-ink">
-                        {act.title}
-                        {act.period && (
-                          <span className="ml-1 font-normal text-brand-terracotta">
-                            · {act.period}
-                          </span>
-                        )}
-                      </span>
-                      <span className="text-cv-muted"> — {act.description}</span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </MainSection>
           )}
         </main>
       </div>

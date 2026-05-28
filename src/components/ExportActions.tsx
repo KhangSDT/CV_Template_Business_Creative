@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { cvData, type CVData } from "@/data/cv";
-import { downloadBlob, exportCvToDocx } from "@/lib/export-docx";
-import { exportToPDF } from "@/lib/export-pdf";
+import { config, featureEnabled } from "@/config";
+import { cvData, type CVData } from "@/resume";
 import { printCV } from "@/lib/print";
 import { ATS_PDF_HINT } from "@/lib/seo";
 
@@ -25,7 +24,11 @@ export default function ExportActions({ data = cvData, labels }: Props) {
     if (!el) return;
     setLoading("pdf");
     try {
-      await exportToPDF(el, `CV_${baseName}.pdf`);
+      const { exportToPDF } = await import("@/lib/export-pdf");
+      await exportToPDF(el, `CV_${baseName}.pdf`, config.performance.pdfCaptureScale);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Xuất PDF thất bại";
+      window.alert(msg);
     } finally {
       setLoading(null);
     }
@@ -34,6 +37,7 @@ export default function ExportActions({ data = cvData, labels }: Props) {
   async function handleDocx() {
     setLoading("docx");
     try {
+      const { exportCvToDocx, downloadBlob } = await import("@/lib/export-docx");
       const blob = await exportCvToDocx(data);
       downloadBlob(blob, `CV_${baseName}.docx`);
     } finally {
@@ -41,33 +45,45 @@ export default function ExportActions({ data = cvData, labels }: Props) {
     }
   }
 
+  const showPrint = featureEnabled("exportPrint");
+  const showPdf = featureEnabled("exportPdf");
+  const showDocx = featureEnabled("exportDocx");
+
+  if (!showPrint && !showPdf && !showDocx) return null;
+
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <button
-        type="button"
-        onClick={printCV}
-        className="preview-btn preview-btn--ghost"
-      >
-        {labels.print}
-      </button>
-      <button
-        type="button"
-        onClick={handlePdf}
-        disabled={loading !== null}
-        className="preview-btn preview-btn--primary"
-        title={ATS_PDF_HINT}
-        aria-label={labels.pdf}
-      >
-        {loading === "pdf" ? "…" : labels.pdf}
-      </button>
-      <button
-        type="button"
-        onClick={handleDocx}
-        disabled={loading !== null}
-        className="preview-btn preview-btn--ghost"
-      >
-        {loading === "docx" ? "…" : labels.docx}
-      </button>
+      {showPrint && (
+        <button
+          type="button"
+          onClick={() => void printCV()}
+          className="preview-btn preview-btn--ghost"
+        >
+          {labels.print}
+        </button>
+      )}
+      {showPdf && (
+        <button
+          type="button"
+          onClick={handlePdf}
+          disabled={loading !== null}
+          className="preview-btn preview-btn--primary"
+          title={ATS_PDF_HINT}
+          aria-label={labels.pdf}
+        >
+          {loading === "pdf" ? "…" : labels.pdf}
+        </button>
+      )}
+      {showDocx && (
+        <button
+          type="button"
+          onClick={handleDocx}
+          disabled={loading !== null}
+          className="preview-btn preview-btn--ghost"
+        >
+          {loading === "docx" ? "…" : labels.docx}
+        </button>
+      )}
     </div>
   );
 }

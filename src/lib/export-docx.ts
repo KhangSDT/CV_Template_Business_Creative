@@ -5,7 +5,7 @@ import {
   Paragraph,
   TextRun,
 } from "docx";
-import type { CVData } from "@/data/cv";
+import type { CVData } from "@/resume";
 
 export async function exportCvToDocx(data: CVData): Promise<Blob> {
   const { header, creativeSkills, careerObjective, education, experience, projects, activities } =
@@ -23,12 +23,22 @@ export async function exportCvToDocx(data: CVData): Promise<Blob> {
     new Paragraph({
       children: [
         new TextRun(
-          [header.email, header.phone, header.address].filter(Boolean).join(" | "),
+          [header.phone, header.address].filter(Boolean).join(" | "),
         ),
       ],
     }),
     new Paragraph({
-      children: [new TextRun(`Portfolio: ${header.portfolio} | LinkedIn: ${header.linkedin}`)],
+      children: [
+        new TextRun(
+          [
+            header.portfolio && `GitHub: ${header.portfolio}`,
+            header.facebook && `Facebook: ${header.facebook}`,
+            header.zalo && `Zalo: ${header.zalo}`,
+          ]
+            .filter(Boolean)
+            .join(" | "),
+        ),
+      ],
     }),
     new Paragraph({ text: "" }),
   );
@@ -70,9 +80,21 @@ export async function exportCvToDocx(data: CVData): Promise<Blob> {
   for (const edu of education) {
     children.push(
       new Paragraph({
-        text: `${edu.school} — ${edu.major} (${edu.period})${edu.gpa ? ` · ${edu.gpa}` : ""}`,
+        children: [
+          new TextRun({ text: edu.school, bold: true }),
+          new TextRun({ text: ` (${edu.period})` }),
+        ],
       }),
     );
+    if (edu.major) {
+      children.push(new Paragraph({ text: `Chuyên ngành: ${edu.major}` }));
+    }
+    if (edu.detail) {
+      children.push(new Paragraph({ text: edu.detail }));
+    }
+    if (edu.gpa) {
+      children.push(new Paragraph({ text: edu.gpa }));
+    }
   }
   children.push(new Paragraph({ text: "" }));
 

@@ -2,25 +2,32 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
+import { config } from "@/config";
+import { useInView } from "@/lib/use-in-view";
 import {
   GALLERY_INTERVAL_MS,
   galleryImages,
   type GalleryImage,
-} from "@/data/gallery";
+} from "@/resume";
 
 type Props = {
   images?: GalleryImage[];
   intervalMs?: number;
   title?: string;
+  /** Tắt autoplay khi gallery chưa trong viewport */
+  autoplay?: boolean;
 };
 
 export default function GalleryCarousel({
   images = galleryImages,
   intervalMs = GALLERY_INTERVAL_MS,
   title,
+  autoplay = true,
 }: Props) {
   const [index, setIndex] = useState(0);
+  const { ref: frameRef, inView: frameInView } = useInView<HTMLDivElement>("0px 0px", false);
   const count = images.length;
+  const quality = config.performance.galleryImageQuality;
 
   const goTo = useCallback(
     (next: number) => {
@@ -34,38 +41,43 @@ export default function GalleryCarousel({
   const prev = useCallback(() => goTo(index - 1), [goTo, index]);
 
   useEffect(() => {
-    if (count <= 1) return;
+    if (!autoplay || !frameInView || count <= 1) return;
     const id = window.setInterval(() => {
       setIndex((i) => (i + 1) % count);
     }, intervalMs);
     return () => window.clearInterval(id);
-  }, [count, intervalMs]);
+  }, [autoplay, frameInView, count, intervalMs]);
 
   if (count === 0) return null;
 
   const current = images[index];
 
   return (
-    <section className="gallery-section gallery-reveal" aria-label={title || "Portfolio gallery"}>
-      {/* Màn hình: carousel cuối trang */}
+    <section
+      className="gallery-section gallery-reveal no-print"
+      aria-label={title || "Portfolio gallery"}
+    >
       <div className="gallery-screen no-print">
         {title && <p className="gallery-section__title">{title}</p>}
 
-        <div className="gallery-carousel__frame">
+        <div ref={frameRef} className="gallery-carousel__frame">
           {images.map((img, i) => (
             <div
               key={img.src}
               className={`gallery-carousel__slide ${i === index ? "is-active" : ""}`}
               aria-hidden={i !== index}
             >
-              <Image
-                src={img.src}
-                alt={img.alt}
-                fill
-                className="gallery-carousel__img"
-                sizes="(max-width: 1200px) 100vw, 1100px"
-                priority={i === 0}
-              />
+              {i === index && (
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  className="gallery-carousel__img"
+                  sizes="(max-width: 1200px) 100vw, 1100px"
+                  quality={quality}
+                  priority={index === 0}
+                />
+              )}
             </div>
           ))}
 
@@ -90,9 +102,7 @@ export default function GalleryCarousel({
             </>
           )}
 
-          {current.caption && (
-            <p className="gallery-carousel__caption">{current.caption}</p>
-          )}
+          <p className="gallery-carousel__caption">{current.caption}</p>
         </div>
 
         {count > 1 && (
@@ -112,23 +122,6 @@ export default function GalleryCarousel({
         )}
       </div>
 
-      {/* In PDF: mỗi hàng 3 ảnh, hiển thị hết */}
-      <div className="gallery-print only-print">
-        {title && <p className="gallery-print__title">{title}</p>}
-        <div className="gallery-print__grid">
-          {images.map((img) => (
-            <figure key={img.src} className="gallery-print__item">
-              <div className="gallery-print__thumb">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={img.src} alt={img.alt} className="gallery-print__img" />
-              </div>
-              {img.caption && (
-                <figcaption className="gallery-print__caption">{img.caption}</figcaption>
-              )}
-            </figure>
-          ))}
-        </div>
-      </div>
     </section>
   );
 }

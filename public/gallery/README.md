@@ -1,30 +1,23 @@
-# Thư mục ảnh Portfolio
+# Gallery — Ảnh hoạt động / việc đã làm
 
-Đặt ảnh portfolio của bạn tại đây (`jpg`, `png`, `webp`, `svg`).
+Thư mục lưu ảnh minh họa công việc, dự án, sự kiện bạn đã tham gia.
 
-## Cách thêm ảnh mới
+## Cách thêm ảnh
 
-1. Copy file vào `public/gallery/` (ví dụ: `my-project-01.jpg`).
-2. Mở `src/data/gallery.ts` và thêm:
+1. Copy file vào đây (`jpg`, `png`, `webp`).
+2. **Đặt tên file = chú thích** — tên sẽ hiện dưới ảnh trên web và khi in PDF.  
+   Ví dụ: `Chiến dịch social Tết 2024.jpg`, `Poster CLB Mỹ thuật.png`
+3. Mở **`src/resume-advanced.ts`** → `gallery.files` → thêm tên file:
 
 ```ts
-{
-  src: "/gallery/my-project-01.jpg",
-  alt: "Mô tả ngắn cho accessibility",
-  caption: "Tên dự án · Năm", // tùy chọn
-},
+files: [
+  "Chiến dịch social Tết 2024.jpg",
+  "Poster CLB Mỹ thuật.png",
+],
 ```
 
-3. Lưu file và refresh trang web — carousel (cuối trang) tự động hiển thị tất cả ảnh.
+4. Lưu và refresh trang.
 
-**Khi in PDF:** **Tất cả** ảnh trong danh sách — **3 ảnh mỗi hàng** (hàng 1: 3 ảnh, hàng 2: 3 ảnh, …), trang sau CV.
+Không cần nhập `alt` hay `caption` riêng — hệ thống lấy **đúng tên file**.
 
-## Ảnh demo
-
-Các file `demo-*.svg` là mẫu minh họa — có thể xóa và thay bằng ảnh thật của bạn.
-
-## Gợi ý
-
-- Tỷ lệ: **16:9** hoặc **4:3** cho đồng nhất trên carousel.
-- Kích thước: ~1200–1600px chiều rộng là đủ cho web.
-- Đặt tên file không dấu, không khoảng trắng (dùng `-`).
+Hướng dẫn đầy đủ: [`src/huongdan.md`](../../src/huongdan.md)

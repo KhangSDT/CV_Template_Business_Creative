@@ -7,6 +7,9 @@ export type UILabels = {
     email: string;
     location: string;
     portfolio: string;
+    github: string;
+    facebook: string;
+    zalo: string;
     linkedin: string;
     instagram: string;
   };
@@ -54,6 +57,9 @@ export const uiLabels: Record<Locale, UILabels> = {
       email: "Email",
       location: "Địa chỉ",
       portfolio: "Portfolio",
+      github: "GitHub",
+      facebook: "Facebook",
+      zalo: "Zalo",
       linkedin: "LinkedIn",
       instagram: "Instagram",
     },
@@ -82,7 +88,7 @@ export const uiLabels: Record<Locale, UILabels> = {
       brand: "Business Creative",
       previewLabel: "Xem trước",
       subtitle: "Thiết kế hình ảnh · Sáng tạo nội dung · Visual Brand",
-      galleryTitle: "Tác phẩm tiêu biểu",
+      galleryTitle: "Hoạt động & việc đã làm",
       print: "In CV",
       pdf: "Tải PDF",
       docx: "Tải DOCX",
@@ -99,6 +105,9 @@ export const uiLabels: Record<Locale, UILabels> = {
       email: "Email",
       location: "Location",
       portfolio: "Portfolio",
+      github: "GitHub",
+      facebook: "Facebook",
+      zalo: "Zalo",
       linkedin: "LinkedIn",
       instagram: "Instagram",
     },
@@ -127,7 +136,7 @@ export const uiLabels: Record<Locale, UILabels> = {
       brand: "Business Creative",
       previewLabel: "Preview",
       subtitle: "Visual Design · Content Creation · Brand",
-      galleryTitle: "Featured Work",
+      galleryTitle: "Activities & Work Done",
       print: "Print",
       pdf: "Download PDF",
       docx: "Download DOCX",

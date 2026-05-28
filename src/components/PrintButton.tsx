@@ -1,12 +1,14 @@
 "use client";
 
+import { printCV } from "@/lib/print";
+
 type Props = {
   label?: string;
 };
 
 export default function PrintButton({ label = "Xuất PDF" }: Props) {
   return (
-    <button type="button" onClick={() => window.print()} className="preview-btn preview-btn--primary">
+    <button type="button" onClick={() => void printCV()} className="preview-btn preview-btn--primary">
       <svg
         className="preview-btn__icon"
         width="14"

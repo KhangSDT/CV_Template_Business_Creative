@@ -1,4 +1,4 @@
-import type { CVData } from "@/data/cv";
+import type { CVData } from "@/resume";
 import { translateTextFree } from "@/lib/translate-providers";
 
 /** Không dịch URL, email, SĐT; giữ tên phần mềm / kênh Latin */
@@ -81,6 +81,7 @@ function collectTranslatableStrings(data: CVData, set: Set<string>) {
     add(e.major);
     add(e.period);
     add(e.gpa);
+    add(e.detail);
   });
 
   data.experience.forEach((x) => {
@@ -153,9 +154,10 @@ export async function translateCVData(data: CVData): Promise<CVData> {
     education: data.education.map((e) => ({
       ...e,
       school: applyMap(e.school, map),
-      major: applyMap(e.major, map),
+      major: e.major ? applyMap(e.major, map) : undefined,
       period: applyMap(e.period, map),
       gpa: e.gpa ? applyMap(e.gpa, map) : undefined,
+      detail: e.detail ? applyMap(e.detail, map) : undefined,
     })),
     experience: data.experience.map((x) => ({
       company: applyMap(x.company, map),

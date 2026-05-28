@@ -1,11 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { cvData, type CVData } from "@/data/cv";
+import { featureEnabled } from "@/config";
+import { cvData, type CVData } from "@/resume";
 import { uiLabels, type Locale } from "@/i18n/ui";
 import CVScaleFit from "@/components/CVScaleFit";
 import CVTemplate from "@/components/CVTemplate";
-import GalleryCarousel from "@/components/GalleryCarousel";
+import GalleryPrintGrid from "@/components/GalleryPrintGrid";
+import LazyGallery from "@/components/LazyGallery";
+import { advanced } from "@/resume-advanced";
 import PreviewToolbar from "@/components/PreviewToolbar";
 import StudioBackground from "@/components/StudioBackground";
 
@@ -58,7 +61,7 @@ export default function CVPageClient() {
 
   return (
     <div className="preview-shell">
-      <StudioBackground />
+      {featureEnabled("studioBackground") && <StudioBackground />}
 
       <PreviewToolbar
         locale={locale}
@@ -87,7 +90,10 @@ export default function CVPageClient() {
           </CVScaleFit>
         </div>
 
-        <GalleryCarousel title={labels.page.galleryTitle} />
+        {featureEnabled("gallery") && (
+          <GalleryPrintGrid title={advanced.branding.galleryTitle} />
+        )}
+        <LazyGallery title={advanced.branding.galleryTitle} />
       </div>
     </div>
   );

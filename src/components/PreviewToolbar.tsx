@@ -1,6 +1,8 @@
 "use client";
 
-import type { CVData } from "@/data/cv";
+import { featureEnabled } from "@/config";
+import { advanced } from "@/resume-advanced";
+import type { CVData } from "@/resume";
 import type { Locale, UILabels } from "@/i18n/ui";
 import ExportActions from "@/components/ExportActions";
 import LanguageToggle from "@/components/LanguageToggle";
@@ -30,7 +32,7 @@ export default function PreviewToolbar({
         <div className="preview-toolbar__brand">
           <span className="preview-toolbar__mark preview-toolbar__mark--live" aria-hidden />
           <div>
-            <p className="preview-toolbar__name">{p.brand}</p>
+            <p className="preview-toolbar__name">{advanced.branding.toolbarName || p.brand}</p>
             <p className="preview-toolbar__meta">
               <span className="preview-toolbar__live" aria-hidden />
               {p.previewLabel}
@@ -40,10 +42,14 @@ export default function PreviewToolbar({
           </div>
         </div>
 
-        <p className="preview-toolbar__subtitle hidden sm:block">{p.subtitle}</p>
+        <p className="preview-toolbar__subtitle hidden sm:block">
+          {advanced.branding.toolbarSubtitle || p.subtitle}
+        </p>
 
         <div className="preview-toolbar__actions">
-          <LanguageToggle locale={locale} loading={loading} onToggle={onToggleLocale} />
+          {featureEnabled("englishTranslation") && (
+            <LanguageToggle locale={locale} loading={loading} onToggle={onToggleLocale} />
+          )}
           <ExportActions
             data={cvData}
             labels={{ print: p.print, pdf: p.pdf, docx: p.docx }}

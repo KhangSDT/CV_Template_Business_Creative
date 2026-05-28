@@ -388,9 +388,40 @@
   display: none;
 }
 
+.gallery-lazy-slot {
+  width: 100%;
+  max-width: min(1100px, calc(100vw - 1rem));
+}
+
+.gallery-lazy-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 420px;
+  border-radius: 12px;
+  background: linear-gradient(
+    110deg,
+    rgba(var(--rgb-cream), 0.9) 0%,
+    rgba(var(--rgb-coral), 0.08) 45%,
+    rgba(var(--rgb-cream), 0.9) 90%
+  );
+  background-size: 200% 100%;
+  animation: gallery-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes gallery-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
 .gallery-section {
   width: 100%;
   max-width: min(1100px, calc(100vw - 1rem));
+  content-visibility: auto;
+  contain-intrinsic-size: auto 480px;
 }
 
 .gallery-screen {
@@ -906,6 +937,29 @@
   margin: 0;
 }
 
+/* Xuất PDF: bỏ zoom xem trước, chụp đúng khổ A4 */
+body.cv-capturing .preview-cv-fit__inner {
+  transform: none !important;
+}
+
+body.cv-capturing .preview-cv-fit {
+  height: auto !important;
+}
+
+body.cv-capturing .cv-header-accent {
+  animation: none !important;
+  background-size: 100% 100% !important;
+}
+
+body.cv-capturing .cv-header-glow,
+body.cv-capturing .cv-sidebar::before {
+  display: none !important;
+}
+
+body.cv-capturing .preview-stage .cv-page {
+  box-shadow: none !important;
+}
+
 @media print {
   html,
   body {
@@ -1026,11 +1080,24 @@
     background: var(--brand-blush);
   }
 
+  .gallery-print__img,
+  .cv-avatar__img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
   .gallery-print__img {
-    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .cv-avatar__frame img {
+    max-width: 100%;
+    height: auto;
   }
 
   .gallery-print__caption {
@@ -1050,7 +1117,8 @@
   .gallery-reveal,
   .preview-toolbar__mark--live,
   .preview-toolbar__live,
-  .cv-loading__ring {
+  .cv-loading__ring,
+  .gallery-lazy-placeholder {
     animation: none !important;
   }
 
