@@ -70,7 +70,7 @@ export const basic: CVData = {
 
   education: [
     {
-      school: "Đại học Cần Thơ",
+      school: "Đại học TP. Hồ Chí Minh",
       major: "Công nghệ thông tin",
       period: "2022 – 2024",
       detail:
@@ -91,13 +91,13 @@ export const basic: CVData = {
         "Tích cực tham gia các hoạt động ngoại khóa, xây dựng nền tảng kỹ năng mềm phong phú và tích lũy kiến thức y khoa thực tiễn phục vụ cho công việc tại hệ thống Y tế sau này.",
     },
     {
-      school: "Trường THPT Nguyễn Thông",
+      school: "Trường THPT Hùng Vương",
       period: "2011 – 2014",
       detail:
         "Học sinh khối THPT, trải qua những bài học lớn từ cuộc sống để trưởng thành và định hình trách nhiệm cá nhân.",
     },
     {
-      school: "Trường THCS Vĩnh Công",
+      school: "Trường THCS Trần Phú",
       period: "2007 – 2011",
       detail:
         "Hoàn thành chương trình Trung học cơ sở, rèn luyện tính tự lập trước các biến cố gia đình.",
