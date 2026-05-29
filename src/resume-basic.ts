@@ -15,7 +15,7 @@ export const basic: CVData = {
     fullName: "NGUYẾN CHÍ KHANG",
     position: "Nhà sáng tạo nội dung / Thiết kế hình ảnh",
     tagline:
-      "(Nghĩa Zakshin) · Sinh 12/06/1996 — Content Creator & Graphic Designer, tư duy sáng tạo hiện đại, thiết kế visual đa nền tảng và xây dựng thương hiệu cá nhân.",
+      "(KhangSDT) · Sinh 12/06/1996 — Content Creator & Graphic Designer, tư duy sáng tạo hiện đại, thiết kế visual đa nền tảng và xây dựng thương hiệu cá nhân.",
     highlights: [
       "Graphic Design",
       "Content Creator",
