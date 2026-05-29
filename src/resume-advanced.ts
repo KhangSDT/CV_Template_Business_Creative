@@ -12,9 +12,9 @@ import type { ResumeAdvanced } from "@/resume-types";
 export const advanced: ResumeAdvanced = {
   meta: {
     siteUrl: "https://cv-business-creative.example.com",
-    siteTitle: "Võ Hoàng Hải Nghĩa — Content Creator & Graphic Designer",
+    siteTitle: "NGUYẾN CHÍ KHANG — Content Creator & Graphic Designer",
     description:
-      "CV Portfolio — Nhà sáng tạo nội dung & Thiết kế hình ảnh (Nghĩa Zakshin). Visual cho TikTok, Instagram, Facebook.",
+      "CV Portfolio — Nhà sáng tạo nội dung & Thiết kế hình ảnh ( KhangSDT ). Visual cho TikTok, Instagram, Facebook.",
     keywords: [
       "content creator",
       "graphic designer",
@@ -26,8 +26,8 @@ export const advanced: ResumeAdvanced = {
   },
 
   branding: {
-    toolbarName: "Võ Hoàng Hải Nghĩa",
-    toolbarSubtitle: "Nghĩa Zakshin · Content Creator · Graphic Designer",
+    toolbarName: "NGUYẾN CHÍ KHANG",
+    toolbarSubtitle: "KhangSDT · Content Creator · Graphic Designer",
     galleryTitle: "Hoạt động & việc đã làm",
   },
 
