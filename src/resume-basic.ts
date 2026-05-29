@@ -1,4 +1,4 @@
-/**
+/** 
  * ═══════════════════════════════════════════════════════════════
  *  RESUME BASIC — Thông tin BẮT BUỘC của CV (in / PDF / DOCX)
  *  • Header, kỹ năng, mục tiêu, học vấn, kinh nghiệm, dự án, hoạt động…
@@ -11,10 +11,10 @@ import type { CVData } from "@/resume-types";
 
 export const basic: CVData = {
   header: {
-    fullName: "VÕ HOÀNG HẢI NGHĨA",
+    fullName: "NGUYẾN CHÍ KHANG",
     position: "Nhà sáng tạo nội dung / Thiết kế hình ảnh",
     tagline:
-      "(Nghĩa Zakshin) · Sinh 06/09/1996 — Content Creator & Graphic Designer, tư duy sáng tạo hiện đại, thiết kế visual đa nền tảng và xây dựng thương hiệu cá nhân.",
+      "(Nghĩa Zakshin) · Sinh 12/06/2000 — Content Creator & Graphic Designer, tư duy sáng tạo hiện đại, thiết kế visual đa nền tảng và xây dựng thương hiệu cá nhân.",
     highlights: [
       "Graphic Design",
       "Content Creator",
@@ -22,12 +22,12 @@ export const basic: CVData = {
       "Visual Storytelling",
       "Ubuntu Server",
     ],
-    phone: "0968 884 946",
-    email: "nghiasoothsayer@gmail.com",
+    phone: "0365882061",
+    email: "chikhang9812@gmail.com",
     address: "Tây Ninh, Việt Nam",
-    portfolio: "https://github.com/ZakShinn",
+    portfolio: "https://github.com/KhangSDT",
     facebook: "https://www.facebook.com/profile.php?id=100006985387032",
-    zalo: "https://zalo.me/0968884946",
+    zalo: "https://zalo.me/0365882061",
   },
 
   creativeSkills: {
